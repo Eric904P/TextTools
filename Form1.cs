@@ -100,6 +100,15 @@ namespace TextTools
 
         private bool processText()
         {
+            Output.AddRange((string.Join("1;", sourceStrings.ToArray()) + "1").Split(";".ToCharArray()).ToList());
+            Output.AddRange((string.Join("12;", sourceStrings.ToArray()) + "12").Split(";".ToCharArray()).ToList());
+            Output.AddRange((string.Join("123;", sourceStrings.ToArray()) + "123").Split(";".ToCharArray()).ToList());
+            Output.AddRange((string.Join("1234;", sourceStrings.ToArray()) + "1234").Split(";".ToCharArray()).ToList());
+            Output.AddRange((string.Join("12345;", sourceStrings.ToArray()) + "12345").Split(";".ToCharArray()).ToList());
+            Output.Sort();
+            textBox2.AppendText(string.Join(Environment.NewLine, Output.ToArray()));
+
+            /*
             List<string> str;
             str = string.Join(":", sourceStrings.ToArray()).Split(":".ToCharArray()).Distinct().ToList();
             for (int i = 0; i < str.Count; i++) 
@@ -114,9 +123,7 @@ namespace TextTools
             Output.AddRange((string.Join("12345;", str.ToArray()) + "12345").Split(";".ToCharArray()).ToList());
             Output.Sort();
             textBox2.AppendText(string.Join(Environment.NewLine, Output.ToArray()));
-
-
-            /*
+            
             foreach (string s1 in sourceStrings)
             {
                 Output.Add(s1.Split(":".ToCharArray())[1] + "1");
