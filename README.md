@@ -1,6 +1,6 @@
 # TextTools
 
-This program is for use with LeagueScraper.  It takes scraped user:user lists from LeagueScraper and combines them into a combo list using this format:
+This program is for use with LeagueScraper.  It takes scraped user:user lists from LeagueScraper and combines them into a combo list using this format -
 user:user1
 user:user12
 user:user123
