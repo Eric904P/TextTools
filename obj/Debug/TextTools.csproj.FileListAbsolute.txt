@@ -1,0 +1,14 @@
+C:\Users\LJ\Source\Repos\TextTools\TextTools\obj\Debug\TextTools.csprojResolveAssemblyReference.cache
+C:\Users\LJ\Source\Repos\TextTools\TextTools\obj\Debug\TextTools.Form1.resources
+C:\Users\LJ\Source\Repos\TextTools\TextTools\obj\Debug\TextTools.Properties.Resources.resources
+C:\Users\LJ\Source\Repos\TextTools\TextTools\obj\Debug\TextTools.csproj.GenerateResource.Cache
+C:\Users\LJ\Source\Repos\TextTools\TextTools\obj\Debug\TextTools.csproj.CoreCompileInputs.cache
+C:\Users\LJ\Source\Repos\TextTools\TextTools\bin\Debug\TextTools.exe.config
+C:\Users\LJ\Source\Repos\TextTools\TextTools\bin\Debug\TextTools.exe
+C:\Users\LJ\Source\Repos\TextTools\TextTools\bin\Debug\TextTools.pdb
+C:\Users\LJ\Source\Repos\TextTools\TextTools\obj\Debug\TextTools.exe
+C:\Users\LJ\Source\Repos\TextTools\TextTools\obj\Debug\TextTools.pdb
+C:\Users\LJ\Source\Repos\TextTools\TextTools\bin\Debug\TextTools.exe.manifest
+C:\Users\LJ\Source\Repos\TextTools\TextTools\bin\Debug\TextTools.application
+C:\Users\LJ\Source\Repos\TextTools\TextTools\obj\Debug\TextTools.exe.manifest
+C:\Users\LJ\Source\Repos\TextTools\TextTools\obj\Debug\TextTools.application
