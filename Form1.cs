@@ -17,15 +17,18 @@ namespace TextTools
 {
     public partial class Form1 : Form
     {
-        private ArrayList Output = new ArrayList();
-        private ArrayList sourceStrings = new ArrayList();
-        //private ArrayList splitText = new ArrayList();
+
+        //serials stuff
+        private bool running = false;
+        private ArrayList serials = new ArrayList();
+        private static Random random = new Random();
 
         public Form1()
         {
             InitializeComponent();
         }
 
+        //General
         private bool WriteToFile(ArrayList lst)
         {
             SaveFileDialog saveDiag = new SaveFileDialog();
@@ -51,173 +54,57 @@ namespace TextTools
             return true;
         }
 
-        private bool OpenFile()
+        //serials
+        /*
+        private void generateSerials()
         {
-            OpenFileDialog openDiag = new OpenFileDialog();
-            openDiag.Filter = "Text File | *.txt | All Files | *.*";
-            openDiag.FilterIndex = 2;
-            openDiag.Title = "Open source files";
-            openDiag.RestoreDirectory = true;
-            openDiag.CheckFileExists = true;
-            openDiag.CheckPathExists = true;
-            openDiag.Multiselect = true;
+            string serial1, serial2, serial3, serial4, serial5, serial6;
 
-            if (openDiag.ShowDialog() == DialogResult.OK)
+            int i = 0;
+            int max = (int) numericUpDown2.Value;
+            while (running && i <= max)
             {
-                //foreach (string sN in openDiag.FileNames)
-                //{
-                //    textBox1.AppendText(sN);
-                //}
+                serial1 = "1603LZ0D" + RandomString(3) + "8"; //M275 mouse
+                serial2 = "1552LZ0D" + RandomString(3) + "8"; //M275 mouse
+                serial3 = "1503LZ0D" + RandomString(3) + "8"; //B175 mouse
+                serial4 = "1546MR0A" + RandomInt(4);
+                serial5 = "1809MH00M" + RandomInt(1) + RandomString(1) + RandomInt(1);
+                serial6 = "1809MH00" + RandomInt(1) + RandomString(1) + "P9";
 
-                foreach (string f in openDiag.FileNames)
-                {
-                    sourceStrings.AddRange(File.ReadAllLines(f));
-                    textBox1.AppendText(string.Join(Environment.NewLine, sourceStrings.ToArray()));
-
-                    /*
-                    using (StreamReader sr = new StreamReader(f))
-                    {
-                        sourceStrings.AddRange(sr.ReadToEnd().ToList());
-                        textBox1.AppendText(string.Join(Environment.NewLine, sourceStrings.ToArray()));
-
-                        
-                         * string line;
-
-                        while ((line = sr.ReadLine()) != null)
-                        {
-                            sourceStrings.Add(line);
-                            textBox1.AppendText(line + "\n");
-                        }
-                        
-                }
-                */
-                }
-
+                textBox3.AppendText(string.Join(Environment.NewLine, new ArrayList(){serial1, serial2, serial3, serial4, serial5, serial6}.ToArray()));
+                textBox3.AppendText(Environment.NewLine);
+                i += 1;
             }
-
-            return true;
+            running = false;
         }
 
-        private bool processText()
+        public static string RandomString(int length)
         {
-            Output.AddRange((string.Join("1;", sourceStrings.ToArray()) + "1").Split(";".ToCharArray()).ToList());
-            Output.AddRange((string.Join("12;", sourceStrings.ToArray()) + "12").Split(";".ToCharArray()).ToList());
-            Output.AddRange((string.Join("123;", sourceStrings.ToArray()) + "123").Split(";".ToCharArray()).ToList());
-            Output.AddRange((string.Join("1234;", sourceStrings.ToArray()) + "1234").Split(";".ToCharArray()).ToList());
-            Output.AddRange((string.Join("12345;", sourceStrings.ToArray()) + "12345").Split(";".ToCharArray()).ToList());
-            Output.Sort();
-            textBox2.AppendText(string.Join(Environment.NewLine, Output.ToArray()));
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
+        }
 
-            /*
-            List<string> str;
-            str = string.Join(":", sourceStrings.ToArray()).Split(":".ToCharArray()).Distinct().ToList();
-            for (int i = 0; i < str.Count; i++) 
-            {
-                str[i] = str[i] + ":" + str[i];
-            }
-            //Output.AddRange(str);
-            Output.AddRange((string.Join("1;", str.ToArray()) + "1").Split(";".ToCharArray()).ToList());
-            Output.AddRange((string.Join("12;", str.ToArray()) + "12").Split(";".ToCharArray()).ToList());
-            Output.AddRange((string.Join("123;", str.ToArray()) + "123").Split(";".ToCharArray()).ToList());
-            Output.AddRange((string.Join("1234;", str.ToArray()) + "1234").Split(";".ToCharArray()).ToList());
-            Output.AddRange((string.Join("12345;", str.ToArray()) + "12345").Split(";".ToCharArray()).ToList());
-            Output.Sort();
-            textBox2.AppendText(string.Join(Environment.NewLine, Output.ToArray()));
+        public static string RandomInt(int length)
+        {
+            const string chars = "0123456789";
+            return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        private string CheckSerial(string s)
+        {
+            const string serialURL = "http://support.logitech.com/apexremote";
+            string payload =
+                "{\n\t\"action\": \"SupportFindProductRegistrationController\",\n\t\"method\": \"fetchProductFromSerial\",\n\t\"data\": [\n\t\t\"" +
+                s +
+                "\",\n\t\t\"en_us\"\n\t],\n\t\"type\": \"rpc\",\n\t\"tid\": 5,\n\t\"ctx\": {\n\t\t\"csrf\": \"blah\",\n\t\t\"vid\": \"\",\n\t\t\"ns\": \"\",\n\t\t\"ver\": 30\n\t}\n}";
+            string headers = 
             
-            foreach (string s1 in sourceStrings)
-            {
-                Output.Add(s1.Split(":".ToCharArray())[1] + "1");
-                Output.Add(s1.Split(":".ToCharArray())[1] + "12");
-                Output.Add(s1.Split(":".ToCharArray())[1] + "123");
-                Output.Add(s1.Split(":".ToCharArray())[1] + "1234");
-                Output.Add(s1.Split(":".ToCharArray())[1] + "12345");
-                textBox2.AppendText(s1.Split(":".ToCharArray())[1] + "1\n");
-                textBox2.AppendText(s1.Split(":".ToCharArray())[1] + "12\n");
-                textBox2.AppendText(s1.Split(":".ToCharArray())[1] + "123\n");
-                textBox2.AppendText(s1.Split(":".ToCharArray())[1] + "1234\n");
-                textBox2.AppendText(s1.Split(":".ToCharArray())[1] + "12345\n");
-            }
-            */
-
-            return true;
+            return "";
         }
+        */
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (OpenFile())
-            {
-                MessageBox.Show("Loaded file(s)!");
-            }
-        }
+        //Combine Text Files
+       
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (processText())
-            {
-                MessageBox.Show("Finished combining!");
-            }
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            if (WriteToFile(Output))
-            {
-                MessageBox.Show("File saved!");
-            }
-        }
-    }
-
-    public abstract class ArList : ICollection<string>
-    {
-        public abstract int Count { get; }
-
-        public abstract bool IsReadOnly { get; }
-
-        public abstract void Add(string item);
-
-        public void Clear()
-        {
-            this.ToList().Clear();
-        }
-
-        public bool Contains(string item)
-        {
-            return this.ToList().Contains(item);
-        }
-
-        public void CopyTo(string[] array, int arrayIndex)
-        {
-            this.ToList().CopyTo(array, arrayIndex);
-        }
-
-        public IEnumerator<string> GetEnumerator()
-        {
-            return this.ToList().GetEnumerator();
-        }
-
-        public bool Remove(string item)
-        {
-            return this.ToList().Remove(item);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.ToList().GetEnumerator();
-        }
-
-        public List<string> Combine(string str, List<string> l)
-        {
-            if (this.Count() != l.Count())
-                return null;
-
-            List<string> output = new List<string>();
-            foreach (string s in this)
-            {
-                output.Add(s + str + l.ElementAt(this.ToList().IndexOf(s)));
-            }
-
-            return output;
-
-        }
     }
 }
